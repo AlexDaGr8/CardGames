@@ -1,0 +1,81 @@
+body {
+    margin: 5vw auto;
+    width: 90vw;
+}
+
+.crib {
+    grid-area: crib;
+}
+
+.player {
+    grid-area: player;
+}
+
+.player-1 {
+    grid-area: aiplayer1;
+}
+
+.player-2 {
+    grid-area: aiplayer2;
+}
+
+.discard {
+    grid-area: discard;
+}
+
+h4, h5 {
+    margin: 5px 0;
+}
+
+.grid {
+    width: 100%;
+    display: grid;
+    grid-gap: 10px;
+    align-items: center;
+    grid-template-columns: 1fr 1fr 100px 100px 1fr 1fr;
+    grid-template-rows: repeat(4, 200px);
+    grid-template-areas:
+    "......... crib crib crib crib ........."
+    "aiplayer1 aiplayer1 discard discard aiplayer2 aiplayer2"
+    "........ player player player player .........";
+    background-color: #fff;
+    color: #444;
+}
+.box {
+    border: solid #444 4px;
+    border-radius: 4px;
+    padding: 5px;
+    display: grid;
+    grid-gap: 5px;
+    grid-template-columns: repeat(5, 1fr);
+}
+.box.discard {
+    grid-template-columns: repeat(2, 1fr);
+}
+.box.discard h4 {
+    grid-column: span 2;
+    text-align: center;
+}
+.box h4 {
+    grid-column: span 5;
+    text-align: center;
+}
+.box.current {
+    border-color: hotpink;
+}
+.card {
+    font-size: 100px;
+    color: #001514;
+    line-height: 100px;
+    padding: 0 0 15px;
+}
+.card.hide {
+    opacity: 0.2;
+}
+.box.current .card:hover {
+    background: #8B5FBF40;
+    cursor: pointer;
+}
+.card.red {
+    color: #DE172E;
+}
