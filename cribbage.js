@@ -40,7 +40,7 @@ export default class Cribbage {
     }
 
     addCardToCrib(e) {
-        let clickedDataset = e.target.dataset;
+        let clickedDataset = e.target.parentNode.dataset;
         let player = this.players.find(p => p.id === clickedDataset.player);
         let cardIndex = player.cards.findIndex(c => c.str === clickedDataset.str);
         let removedCard = player.cards.splice(cardIndex, 1);
@@ -57,7 +57,7 @@ export default class Cribbage {
     }
 
     playCard(e) {
-        let clickedDataset = e.target.dataset;
+        let clickedDataset = e.target.parentNode.dataset;
         let player = this.players.find(p => p.id === clickedDataset.player);
         let card = player.cards.find(c => c.str === clickedDataset.str);
 
@@ -80,26 +80,36 @@ export default class Cribbage {
         console.log('starting play portion', this.currentScoringCards);
 
         // check score
-        let currentScore = this.currentScoringCards.reduce((a,c) => a + c.value, 0);
+        let currentScore = this.currentScoringCards.reduce((a,c) => a + Math.min(10, c.value), 0);
         let currentPlayerIndex = this.players.findIndex(p => p.id === this.currentPlayerId) - 1;
         currentPlayerIndex = currentPlayerIndex === -1 ? 0 : currentPlayerIndex;
+
+        this.discardPile.points = currentScore;
 
         if (currentScore > 31) {
             this.players.at(currentPlayerIndex - 1).points += 1;
 
-            this.currentScoringCards = [];
+            this.currentScoringCards = [this.currentScoringCards.pop()];
+
+            this.discardPile.points = this.currentScoringCards[0].value;
+
+            console.log('current', this.currentScoringCards);
 
             this.displayCards(this.playCard);
 
             return;
         }
 
-        this.players[currentPlayerIndex].points += this.checkDoublesAndMore(this.currentScoringCards)
+        this.players[currentPlayerIndex].points += this.checkDoublesAndMore(this.currentScoringCards);
+
+        this.players[currentPlayerIndex].points += this.checkForRuns(this.currentScoringCards);
 
         if (currentScore === 31) {
             this.players[currentPlayerIndex].points += 2;
 
             this.currentScoringCards = [];
+
+            this.discardPile.points = 0;
         } 
 
         for (let p of this.players) {
@@ -112,7 +122,6 @@ export default class Cribbage {
     checkDoublesAndMore(cards) {
         let lastCard = cards.findLast(card => card);
         let sameCardCount = cards.reduceRight((a,c) => a += c.name === lastCard.name ? 1 : 0, 0);
-        let points = 0;
 
         switch (sameCardCount) {
             case 0:
@@ -130,7 +139,18 @@ export default class Cribbage {
     }
 
     checkForRuns(cards) {
-        let sequence = ['a', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'j', 'q', 'k'];
+        let sequence = cards.sort((a,b) => a.value - b.value).map(d => d.value);
+        let seqLength = 0;
+        
+        for (let i = 1; i < sequence.length; i++) {
+            console.log('i', i);
+            console.log('sequence[i - 1]', sequence[i - 1]);
+            console.log('sequence[i]', sequence[i]);
+            console.log('check', sequence[i - 1] + 1 === sequence[i])
+        }
+
+
+        return 0;
     }
 
     nextPlayer() {

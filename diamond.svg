@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+    <!-- diamonds -->
+    <path stroke="#A61123"
+        fill="#EA3449"
+        stroke-width="2"
+        d="m50,5
+            q14,24 38,45
+            q-24,21 -38,45
+            q-14,-24 -38,-45
+            q24,-21 38,-45
+            z" />
+</svg>

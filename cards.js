@@ -1,8 +1,8 @@
 export const suit = {
-    spades: '♠️',
-    clubs: '♣️',
-    hearts: '❤️',
-    diamonds: '♦️'
+    spades: 'spades',
+    clubs: 'clubs',
+    hearts: 'hearts',
+    diamonds: 'diamonds'
 }
 
 export default [
@@ -80,21 +80,21 @@ export default [
     {
         suit: suit.spades,
         name: 'J',
-        value: 10,
+        value: 11,
         ascii: '&#127147;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.spades,
         name: 'Q',
-        value: 10,
+        value: 12,
         ascii: '&#127149;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.spades,
         name: 'K',
-        value: 10,
+        value: 13,
         ascii: '&#127150;',
         get str() { return `${this.suit}${this.name}` }
     },
@@ -172,21 +172,21 @@ export default [
     {
         suit: suit.hearts,
         name: 'J',
-        value: 10,
+        value: 11,
         ascii: '&#127163;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.hearts,
         name: 'Q',
-        value: 10,
+        value: 12,
         ascii: '&#127165;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.hearts,
         name: 'K',
-        value: 10,
+        value: 13,
         ascii: '&#127166;',
         get str() { return `${this.suit}${this.name}` }
     },
@@ -264,21 +264,21 @@ export default [
     {
         suit: suit.clubs,
         name: 'J',
-        value: 10,
+        value: 11,
         ascii: '&#127195;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.clubs,
         name: 'Q',
-        value: 10,
+        value: 12,
         ascii: '&#127197;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.clubs,
         name: 'K',
-        value: 10,
+        value: 13,
         ascii: '&#127198;',
         get str() { return `${this.suit}${this.name}` }
     },
@@ -356,21 +356,21 @@ export default [
     {
         suit: suit.diamonds,
         name: 'J',
-        value: 10,
+        value: 11,
         ascii: '&#127179;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.diamonds,
         name: 'Q',
-        value: 10,
+        value: 12,
         ascii: '&#127181;',
         get str() { return `${this.suit}${this.name}` }
     },
     {
         suit: suit.diamonds,
         name: 'K',
-        value: 10,
+        value: 13,
         ascii: '&#127182;',
         get str() { return `${this.suit}${this.name}` }
     }
@@ -385,14 +385,17 @@ export const cardBack = {
 
 export function createCard(card) {
     let cardElem = document.createElement('div');
+    let value = document.createElement('div');
+    let suit = document.createElement('div');
 
-    cardElem.classList.add('card');
+    cardElem.classList.add('card', card.suit);
+    value.classList.add('value');
+    suit.classList.add('suit');
 
-    if ([suit.hearts, suit.diamonds].includes(card.suit)) {
-        cardElem.classList.add('red');
-    }
-
-    cardElem.innerHTML = card.ascii;
+    value.innerHTML = card.name;
+    
+    cardElem.appendChild(value);
+    cardElem.appendChild(suit);
 
     cardElem.setAttribute('data-str', card.str);
 

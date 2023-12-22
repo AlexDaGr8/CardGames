@@ -7,11 +7,10 @@ export default class Player {
         this.points = 0;
         this.isDealer = false;
         this.elem = document.getElementById(this.id);
+        this.nameHeader = document.createElement('h4');
+        this.nameHeader.innerText = this.headerName;
 
-        let name = document.createElement('h4');
-        name.innerText = this.headerName;
-
-        this.elem.appendChild(name);
+        this.elem.appendChild(this.nameHeader);
     }
 
     get headerName () {
@@ -38,6 +37,8 @@ export default class Player {
         for (let c of cards) {
             c.remove();
         }
+
+        this.nameHeader.innerText = `${this.headerName} - ${this.points}`;
 
         if (showOnlyTop) {
             let headers = this.elem.querySelectorAll('h5');

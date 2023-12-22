@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .card
+        {
+            border: solid 1px #aaa;
+            border-radius: 9px;
+            width: 95px;
+            height: auto;
+            float:left;
+            background-color: white;
+            padding: 3px 3px 3px 3px;
+            margin: 5px;
+            color: #000000;
+        }
+
+        .card.diamonds, .card.hearts {
+            color: #A61123;
+        }
+
+        .card .value {
+            font-size:24px;
+            font-family: monospace;
+            padding-top: 1px;
+            padding-left: 6px;
+        }
+
+        .card .suit {
+            background-image: url('../suits.svg');
+            background-repeat: no-repeat;
+            background-size: 190px 185px;
+            height: 90px;
+            width: 90px;
+            padding-bottom: 3px;
+        }
+
+        .card.diamonds .suit {
+            background-position-x:-96px;
+            background-position-y:-3px;
+        }
+
+        .card.hearts .suit {
+            background-position-x:-96px;
+            background-position-y:-100px;
+        }
+
+        .card.spades .suit {
+            background-position-y:-94px;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="shuffleDeck()">Shuffle</button>
+    <div id="deck" class="deck"></div>
+    <script>
+        function getDeck() {
+            let suits = ['diamonds', 'hearts', 'spades', 'clubs'];
+            let suitId = -1;
+            let letters = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K', ];
+            let deck = Array.from(
+                { length: 52 },
+                (v,k) => {
+                    let kMod = k % 13; 
+                    suitId = (kMod === 0) ? suitId + 1 : suitId;
+                    return {
+                        letter: letters[kMod],
+                        suit: suits[suitId],
+                        value: kMod + 1
+                    }
+                }
+            );
+
+            return deck;
+
+        }
+        
+        function renderDeck(deck) {
+            let deckElem = document.getElementById('deck');
+            deckElem.innerHTML = '';
+
+            for (let card of deck) {
+                let cardElem = document.createElement('div');
+                let value = document.createElement('div');
+                let suit = document.createElement('div');
+
+                cardElem.classList.add('card', card.suit);
+                value.classList.add('value');
+                suit.classList.add('suit');
+
+                value.innerHTML = card.letter;
+                
+                cardElem.appendChild(value);
+                cardElem.appendChild(suit);
+
+                deckElem.appendChild(cardElem);
+            }
+        }
+
+        function shuffle(arr) {
+            let array = arr.slice();
+            for (let i = array.length - 1; i > 0; i--) {
+                let j = Math.floor(Math.random() * (i + 1));
+                let temp = array[i];
+                array[i] = array[j];
+
+
+                array[j] = temp;
+            }
+
+            return array;
+        }
+
+        function shuffleDeck() {
+            renderDeck(shuffle(getDeck()));
+        }
+
+        let deck = shuffle(getDeck());
+
+        renderDeck(deck);
+
+        
+    </script>
+</body>
+</html>
